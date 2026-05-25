@@ -1,0 +1,67 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Article {
+  id             String           @id @default(cuid())
+  title          String
+  slug           String           @unique
+  dek            String?
+  bucket         String           @default("Perspective")
+  status         String           @default("draft")
+  sourceDocId    String?
+  sourceTabId    String?
+  sourceRevision String?
+  heroImagePath  String?
+  published      Boolean          @default(false)
+  featured       Boolean          @default(false)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  sections       ArticleSection[]
+  related        RelatedArticle[]
+  assets         Asset[]
+
+  @@index([published, bucket])
+  @@index([status])
+}
+
+model ArticleSection {
+  id        String   @id @default(cuid())
+  articleId String
+  type      String
+  heading   String?
+  body      String
+  sortOrder Int
+  article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@index([articleId, sortOrder])
+}
+
+model RelatedArticle {
+  id          String  @id @default(cuid())
+  articleId   String
+  targetSlug  String?
+  targetTitle String
+  sortOrder   Int
+  article     Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@index([articleId, sortOrder])
+}
+
+model Asset {
+  id               String   @id @default(cuid())
+  key              String   @unique
+  articleId        String?
+  bucket           String?
+  prompt           String
+  filePath         String
+  altText          String
+  generationStatus String   @default("pending")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  article          Article? @relation(fields: [articleId], references: [id], onDelete: SetNull)
+}
