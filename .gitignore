@@ -1,0 +1,11 @@
+.DS_Store
+.env
+.env*.local
+.next/
+node_modules/
+coverage/
+playwright-report/
+test-results/
+src/generated/prisma/
+public/generated/*.tmp
+*.log
