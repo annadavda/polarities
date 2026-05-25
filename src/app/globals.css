@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f4efe7;
+  --foreground: #1d2222;
+  --muted: #766d64;
+  --muted-strong: #4f5f56;
+  --line: rgba(29, 34, 34, 0.16);
+  --rust: #a44733;
+  --rust-dark: #7e3023;
+  --ink: #111617;
+  --paper: #faf7f1;
+  --sage: #6f7d72;
+  --clay: #c58b67;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background: var(--background);
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.72), transparent 34rem),
+    linear-gradient(180deg, #fbf7ef 0%, #eee6da 48%, #f5f1ea 100%);
+  color: var(--foreground);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+.serif {
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.hairline {
+  border-color: var(--line);
+}
+
+.editorial-grid {
+  background-image:
+    linear-gradient(rgba(29, 34, 34, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(29, 34, 34, 0.045) 1px, transparent 1px);
+  background-size: 42px 42px;
+}
+
+.section-prose p {
+  margin: 0 0 1.15rem;
+}
+
+.section-prose p:last-child {
+  margin-bottom: 0;
+}
+
+.section-prose ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.section-prose li {
+  margin: 0.55rem 0;
+}
+
+::selection {
+  background: rgba(164, 71, 51, 0.22);
+}
