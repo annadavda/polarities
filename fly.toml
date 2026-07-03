@@ -26,4 +26,4 @@ primary_region = "sjc"
     path = "/api/health"
 
 [deploy]
-  release_command = "sh -c 'npx prisma migrate deploy && npx prisma db seed'"
+  release_command = "npx prisma migrate deploy"
