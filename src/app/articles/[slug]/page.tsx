@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ArticleBody } from "@/components/article-body";
 import { BucketBadge } from "@/components/bucket-badge";
 import { getArticleBySlug } from "@/lib/articles";
+import { InlineRichText } from "@/lib/rich-text";
 
 export const dynamic = "force-dynamic";
 
@@ -30,7 +31,11 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           </Link>
           <BucketBadge bucket={article.bucket} />
           <h1 className="serif mt-8 max-w-4xl text-5xl leading-tight md:text-7xl">{article.title}</h1>
-          {article.dek ? <p className="mt-8 max-w-2xl text-xl leading-8 text-white/78">{article.dek}</p> : null}
+          {article.dek ? (
+            <p className="mt-8 max-w-2xl text-xl leading-8 text-white/78">
+              <InlineRichText text={article.dek} />
+            </p>
+          ) : null}
         </div>
       </section>
 

@@ -7,9 +7,20 @@ import { parseMarkdownArticle } from "../src/lib/content/markdown-fallback";
 import { normalizeForSeed } from "../src/lib/content/seed-transform";
 import type { ParsedArticle } from "../src/lib/content/types";
 import { prisma } from "../src/lib/prisma";
+import { DEFAULT_SITE_CONTENT } from "../src/lib/site-content";
 
 async function main() {
-  const articles = normalizeForSeed(await loadArticles());
+  for (const [key, content] of Object.entries(DEFAULT_SITE_CONTENT)) {
+    await prisma.siteContent.upsert({
+      where: { key },
+      create: {
+        key,
+        title: content.title,
+        body: content.body
+      },
+      update: {}
+    });
+  }
 
   for (const asset of ASSET_RECORDS) {
     await prisma.asset.upsert({
@@ -31,6 +42,16 @@ async function main() {
       }
     });
   }
+
+  if (process.env.SKIP_SEED_IF_ARTICLES_EXIST === "true") {
+    const existingArticleCount = await prisma.article.count();
+    if (existingArticleCount > 0) {
+      console.log(`Skipping article seed because ${existingArticleCount} articles already exist.`);
+      return;
+    }
+  }
+
+  const articles = normalizeForSeed(await loadArticles());
 
   for (const article of articles) {
     const saved = await prisma.article.upsert({

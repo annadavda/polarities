@@ -65,3 +65,11 @@ model Asset {
   updatedAt        DateTime @updatedAt
   article          Article? @relation(fields: [articleId], references: [id], onDelete: SetNull)
 }
+
+model SiteContent {
+  key       String   @id
+  title     String
+  body      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

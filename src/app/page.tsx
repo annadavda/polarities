@@ -2,11 +2,16 @@ import { ArrowRight, Circle } from "lucide-react";
 import Link from "next/link";
 import { ArticleCard } from "@/components/article-card";
 import { getHomeArticles } from "@/lib/articles";
+import { InlineRichText, RichText } from "@/lib/rich-text";
+import { getSiteContent, SITE_CONTENT_KEYS } from "@/lib/site-content";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const { featured, articles } = await getHomeArticles();
+  const [{ featured, articles }, homeIntro] = await Promise.all([
+    getHomeArticles(),
+    getSiteContent(SITE_CONTENT_KEYS.homeIntro)
+  ]);
   const hero = featured ?? articles[0];
 
   return (
@@ -23,12 +28,11 @@ export default async function HomePage() {
           <div className="max-w-2xl text-[var(--foreground)]">
             <div className="mb-10 h-px w-10 bg-[var(--rust)]" />
             <h1 className="serif text-6xl leading-none md:text-7xl lg:text-8xl">
-              The tension
-              <span className="block italic text-[var(--rust)]">holds the truth.</span>
+              <InlineRichText text={homeIntro.title} />
             </h1>
-            <p className="mt-8 max-w-md text-lg leading-8 text-[var(--muted)]">
-              Essays for working with the useful tension between opposites, where discernment becomes more practical than choosing sides.
-            </p>
+            <div className="section-prose mt-8 max-w-xl text-lg leading-8 text-[var(--muted)]">
+              <RichText text={homeIntro.body} />
+            </div>
             <Link
               href="/articles"
               className="mt-10 inline-flex items-center gap-3 border-b border-[var(--rust)] pb-2 text-sm font-semibold uppercase tracking-[0.22em] text-[var(--foreground)]"
@@ -55,8 +59,11 @@ export default async function HomePage() {
           </div>
           <div className="grid items-center gap-8 md:grid-cols-[1fr_auto]">
             <p className="max-w-xl text-lg leading-8 text-[var(--muted)]">
-              {hero?.dek ??
-                "Run the database migration and seed to load the draft article set from the Google Docs export."}
+              {hero?.dek ? (
+                <InlineRichText text={hero.dek} />
+              ) : (
+                "Run the database migration and seed to load the draft article set from the Google Docs export."
+              )}
             </p>
             {hero ? (
               <Link

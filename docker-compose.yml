@@ -26,6 +26,7 @@ services:
       NEXTAUTH_URL: http://localhost:3000
       NEXTAUTH_SECRET: local-development-secret-change-me
       ALLOW_UNAUTHENTICATED_ADMIN: "true"
+      SKIP_SEED_IF_ARTICLES_EXIST: "true"
     ports:
       - "3000:3000"
     command: sh -c "npx prisma migrate deploy && npx prisma db seed && node server.js"

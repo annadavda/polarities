@@ -51,6 +51,18 @@ Open:
 - Admin: `http://127.0.0.1:3000/admin`
 - Health check: `http://127.0.0.1:3000/api/health`
 
+## Editing Articles Locally
+
+Open the local admin editor at:
+
+```text
+http://127.0.0.1:3000/admin
+```
+
+Choose an article, edit its title, summary, bucket, hero image path, structured sections, related polarities, and publish/featured flags, then click **Save**. Edits are saved to the local Postgres database in the Docker volume.
+
+The Docker app seeds the database when it is empty. After articles exist, startup skips the article seed so local admin edits are not overwritten by restarting the container.
+
 ## Docker
 
 Build and run the production-style app locally:
@@ -117,18 +129,20 @@ npx playwright install chromium
 
 `fly.toml` is included with a placeholder app name. Before deploying for real, update the Fly app name and public URL, then attach Fly Postgres so `DATABASE_URL` is available.
 
-The Fly release command runs:
+The Fly release command runs migrations and seeds the database:
 
 ```bash
-npx prisma migrate deploy
+npx prisma migrate deploy && npx prisma db seed
 ```
+
+The seed is configured with `SKIP_SEED_IF_ARTICLES_EXIST=true` in `fly.toml`, so the first deploy can load starting content and later deploys do not overwrite existing article edits.
 
 Useful future secrets/config:
 
 - `DATABASE_URL`
-- `NEXTAUTH_URL`
-- `NEXTAUTH_SECRET`
-- `ADMIN_EMAILS`
-- Google OAuth client values once auth is implemented
+- `NEXT_PUBLIC_SITE_URL`
+- Google OAuth or another login setup once online Admin editing is implemented
 
-Admin auth is intentionally local-only in this first pass. Production admin access should be locked behind Google OAuth before real use.
+Admin auth is intentionally local-only in this first pass. Production admin access should stay locked until Google OAuth or another real login is added.
+
+See `LAUNCH.md` for the plain-English launch checklist.

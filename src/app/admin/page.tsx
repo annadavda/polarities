@@ -1,4 +1,4 @@
-import { Search } from "lucide-react";
+import { FileText, Search } from "lucide-react";
 import Link from "next/link";
 import { canUseAdmin } from "@/lib/admin/access";
 import { getAdminArticles } from "@/lib/articles";
@@ -24,15 +24,23 @@ export default async function AdminPage({
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.28em] text-[var(--rust)]">Admin</p>
           <h1 className="serif text-5xl">Article editor</h1>
         </div>
-        <form className="flex min-w-[280px] items-center gap-2 border-b hairline pb-2">
-          <Search size={18} className="text-[var(--muted)]" />
-          <input
-            name="q"
-            defaultValue={params.q ?? ""}
-            placeholder="Search articles"
-            className="w-full bg-transparent outline-none placeholder:text-[var(--muted)]"
-          />
-        </form>
+        <div className="flex flex-wrap items-center gap-5">
+          <Link
+            href="/admin/pages"
+            className="inline-flex min-h-10 items-center justify-center gap-2 border border-[var(--rust)] bg-[var(--rust)] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[var(--rust-dark)]"
+          >
+            <FileText size={16} /> Page text
+          </Link>
+          <form className="flex min-w-[280px] items-center gap-2 border-b hairline pb-2">
+            <Search size={18} className="text-[var(--muted)]" />
+            <input
+              name="q"
+              defaultValue={params.q ?? ""}
+              placeholder="Search articles"
+              className="w-full bg-transparent outline-none placeholder:text-[var(--muted)]"
+            />
+          </form>
+        </div>
       </header>
 
       <div className="overflow-hidden border hairline bg-[var(--paper)]">

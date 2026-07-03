@@ -1,4 +1,5 @@
 import type { PublicArticleSection } from "@/lib/articles";
+import { RichText } from "@/lib/rich-text";
 
 export function ArticleBody({ sections }: { sections: PublicArticleSection[] }) {
   return (
@@ -9,31 +10,10 @@ export function ArticleBody({ sections }: { sections: PublicArticleSection[] }) 
             <h2 className="serif mb-6 text-3xl leading-tight text-[var(--foreground)]">{section.heading}</h2>
           ) : null}
           <div className="section-prose text-lg leading-8 text-[var(--foreground)]">
-            {renderBody(section.body)}
+            <RichText text={section.body} />
           </div>
         </section>
       ))}
     </article>
   );
-}
-
-function renderBody(body: string) {
-  const blocks = body.split(/\n{2,}/).map((block) => block.trim()).filter(Boolean);
-
-  return blocks.map((block, index) => {
-    const lines = block.split("\n").map((line) => line.trim()).filter(Boolean);
-    const isList = lines.every((line) => /^[-*]\s+/.test(line));
-
-    if (isList) {
-      return (
-        <ul key={index}>
-          {lines.map((line) => (
-            <li key={line}>{line.replace(/^[-*]\s+/, "")}</li>
-          ))}
-        </ul>
-      );
-    }
-
-    return <p key={index}>{block}</p>;
-  });
 }

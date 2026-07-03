@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import type { ArticleSummary } from "@/lib/articles";
+import { InlineRichText, plainTextFromRichText } from "@/lib/rich-text";
 import { BucketBadge } from "./bucket-badge";
 
 export function ArticleCard({ article }: { article: ArticleSummary }) {
@@ -18,7 +19,11 @@ export function ArticleCard({ article }: { article: ArticleSummary }) {
       <div className="flex flex-col p-5">
         <BucketBadge bucket={article.bucket} />
         <h3 className="serif mt-5 text-3xl leading-tight">{article.title}</h3>
-        {article.dek ? <p className="mt-4 line-clamp-3 leading-7 text-[var(--muted)]">{article.dek}</p> : null}
+        {article.dek ? (
+          <p className="mt-4 line-clamp-3 leading-7 text-[var(--muted)]" title={plainTextFromRichText(article.dek)}>
+            <InlineRichText text={article.dek} />
+          </p>
+        ) : null}
         <span className="mt-auto inline-flex items-center gap-2 pt-8 text-sm font-semibold uppercase tracking-[0.18em] text-[var(--rust-dark)]">
           Read <ArrowRight className="transition-transform group-hover:translate-x-1" size={15} />
         </span>

@@ -7,7 +7,8 @@ primary_region = "sjc"
 [env]
   NODE_ENV = "production"
   PORT = "3000"
-  NEXTAUTH_URL = "https://polarities.fly.dev"
+  NEXT_PUBLIC_SITE_URL = "https://polarities.fly.dev"
+  SKIP_SEED_IF_ARTICLES_EXIST = "true"
 
 [http_service]
   internal_port = 3000
@@ -25,4 +26,4 @@ primary_region = "sjc"
     path = "/api/health"
 
 [deploy]
-  release_command = "npx prisma migrate deploy"
+  release_command = "sh -c 'npx prisma migrate deploy && npx prisma db seed'"

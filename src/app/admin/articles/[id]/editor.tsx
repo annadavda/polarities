@@ -3,6 +3,7 @@
 import { ArrowLeft, Eye, Plus, Save, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { RichTextArea } from "@/components/admin/rich-text-area";
 import { BucketBadge } from "@/components/bucket-badge";
 import { Button } from "@/components/ui/button";
 import { BUCKETS, heroForBucket } from "@/lib/content/buckets";
@@ -38,6 +39,7 @@ export function AdminArticleEditor({
   const [relatedText, setRelatedText] = useState(
     article.related.map((related) => related.targetTitle).join("\n")
   );
+  const [dek, setDek] = useState(article.dek ?? "");
   const [bucket, setBucket] = useState(article.bucket);
   const [heroImagePath, setHeroImagePath] = useState(article.heroImagePath ?? heroForBucket(article.bucket));
 
@@ -80,10 +82,7 @@ export function AdminArticleEditor({
             <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">Slug</span>
             <input name="slug" defaultValue={article.slug} required className="w-full border hairline bg-white px-3 py-2 outline-none" />
           </label>
-          <label className="block">
-            <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">Summary</span>
-            <textarea name="dek" defaultValue={article.dek ?? ""} rows={5} className="w-full border hairline bg-white px-3 py-2 outline-none" />
-          </label>
+          <RichTextArea label="Summary" name="dek" value={dek} rows={5} onValueChange={setDek} />
           <label className="block">
             <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">Bucket</span>
             <select
@@ -166,11 +165,12 @@ export function AdminArticleEditor({
                 <Trash2 size={16} />
               </Button>
             </div>
-            <textarea
+            <RichTextArea
+              label="Section text"
               value={section.body}
-              onChange={(event) => setSection(index, { body: event.target.value })}
+              onValueChange={(body) => setSection(index, { body })}
               rows={section.type === "questions" ? 8 : 14}
-              className="min-h-44 w-full border hairline bg-white px-3 py-3 leading-7 outline-none"
+              minHeightClassName="min-h-44"
             />
           </div>
         ))}

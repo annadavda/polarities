@@ -42,6 +42,15 @@ export const articleUpdateSchema = z
 
 export type ArticleUpdateInput = z.infer<typeof articleUpdateSchema>;
 
+export const siteContentUpdateSchema = z.object({
+  homeTitle: z.string().trim().min(3, "Homepage title is required"),
+  homeBody: z.string().trim().min(10, "Homepage text is required"),
+  aboutTitle: z.string().trim().min(3, "About title is required"),
+  aboutBody: z.string().trim().min(10, "About text is required")
+});
+
+export type SiteContentUpdateInput = z.infer<typeof siteContentUpdateSchema>;
+
 export function parseArticleUpdateForm(formData: FormData): ArticleUpdateInput {
   const sections = parseJsonField(formData.get("sectionsJson"), []);
   const related = parseJsonField(formData.get("relatedJson"), []);
@@ -57,6 +66,15 @@ export function parseArticleUpdateForm(formData: FormData): ArticleUpdateInput {
     featured: formData.get("featured") === "on" || formData.get("featured") === "true",
     sections,
     related
+  });
+}
+
+export function parseSiteContentUpdateForm(formData: FormData): SiteContentUpdateInput {
+  return siteContentUpdateSchema.parse({
+    homeTitle: formData.get("homeTitle"),
+    homeBody: formData.get("homeBody"),
+    aboutTitle: formData.get("aboutTitle"),
+    aboutBody: formData.get("aboutBody")
   });
 }
 
