@@ -39,7 +39,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         </div>
       </section>
 
-      <ArticleBody sections={article.sections} />
+      <ArticleBody slug={article.slug} sections={article.sections} />
 
       {article.related.length > 0 ? (
         <section className="border-t hairline bg-[var(--paper)]">
