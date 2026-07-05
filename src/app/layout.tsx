@@ -7,22 +7,22 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://127.0.0.1:3000";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "The Polarities",
+  title: "Polarity Project",
   description: "Practical essays on holding both sides of human and leadership tensions.",
   alternates: {
     canonical: "/"
   },
   openGraph: {
-    title: "The Polarities",
+    title: "Polarity Project",
     description: "Practical essays on holding both sides of human and leadership tensions.",
     url: siteUrl,
-    siteName: "The Polarities",
+    siteName: "Polarity Project",
     images: [
       {
         url: "/generated/home-hero.png",
         width: 1200,
         height: 630,
-        alt: "The Polarities"
+        alt: "Polarity Project"
       }
     ],
     type: "website"

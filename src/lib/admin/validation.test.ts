@@ -7,7 +7,7 @@ describe("parseArticleUpdateForm", () => {
     form.set("title", "Making It Happen vs Letting It Unfold");
     form.set("slug", "making-it-happen-vs-letting-it-unfold");
     form.set("dek", "A useful summary");
-    form.set("bucket", "Action");
+    form.set("bucket", "Doing/Being");
     form.set("status", "draft");
     form.set("heroImagePath", "/generated/bucket-action.png");
     form.set("published", "on");
@@ -26,7 +26,7 @@ describe("parseArticleUpdateForm", () => {
     const form = new FormData();
     form.set("title", "Bad Slug");
     form.set("slug", "Bad Slug!");
-    form.set("bucket", "Action");
+    form.set("bucket", "Doing/Being");
     form.set("sectionsJson", JSON.stringify([{ type: "body", body: "Body" }]));
 
     expect(() => parseArticleUpdateForm(form)).toThrow();

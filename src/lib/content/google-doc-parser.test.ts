@@ -46,7 +46,7 @@ describe("parseGoogleDocDrafts", () => {
 
     expect(article.title).toBe("Speaking Up vs Staying Quiet");
     expect(article.slug).toBe("speaking-up-vs-staying-quiet");
-    expect(article.bucket).toBe("Leadership/Workplace");
+    expect(article.bucket).toBe("Relationships");
     expect(article.sourceRevision).toBe("test");
     expect(article.sections.map((section) => section.type)).toEqual([
       "opening_image",

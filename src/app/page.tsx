@@ -81,7 +81,6 @@ export default async function HomePage() {
         <div className="mx-auto max-w-7xl px-6 py-16 md:px-10">
           <div className="mb-10 flex flex-wrap items-end justify-between gap-6">
             <div>
-              <p className="mb-4 text-xs font-semibold uppercase tracking-[0.28em] text-[var(--rust)]">Draft library</p>
               <h2 className="serif text-4xl">Current essays</h2>
             </div>
             <Link href="/articles" className="text-sm font-semibold uppercase tracking-[0.22em] text-[var(--rust-dark)]">

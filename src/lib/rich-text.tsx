@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 
-const inlinePattern = /(\*\*[\s\S]+?\*\*|\*[^*\n\r]+?\*|\[large\][\s\S]+?\[\/large\]|\[small\][\s\S]+?\[\/small\])/g;
+const inlinePattern =
+  /(\*\*[\s\S]+?\*\*|\*[^*\n\r]+?\*|\[[^\]\n\r]+?\]\((?:\/|https?:\/\/)[^) \n\r]+?\)|\[large\][\s\S]+?\[\/large\]|\[small\][\s\S]+?\[\/small\])/g;
 
 export function RichText({ text }: { text: string }) {
   return <>{renderRichTextBlocks(text)}</>;
@@ -74,6 +75,16 @@ export function renderInlineRichText(text: string): ReactNode[] {
       parts.push(<strong key={key}>{renderInlineRichText(token.slice(2, -2).trim())}</strong>);
     } else if (token.startsWith("*") && token.endsWith("*")) {
       parts.push(<em key={key}>{renderInlineRichText(token.slice(1, -1).trim())}</em>);
+    } else if (token.startsWith("[") && token.includes("](") && token.endsWith(")")) {
+      const labelEnd = token.indexOf("](");
+      const label = token.slice(1, labelEnd);
+      const href = token.slice(labelEnd + 2, -1);
+
+      parts.push(
+        <a key={key} href={href} className="border-b border-current">
+          {renderInlineRichText(label)}
+        </a>
+      );
     } else if (token.startsWith("[large]") && token.endsWith("[/large]")) {
       parts.push(
         <span key={key} className="text-xl leading-9">
@@ -102,6 +113,7 @@ export function plainTextFromRichText(text: string) {
   return normalizeLineBreaks(text)
     .replace(/\*\*([\s\S]+?)\*\*/g, "$1")
     .replace(/\*([^*\n\r]+?)\*/g, "$1")
+    .replace(/\[([^\]\n\r]+?)\]\((?:\/|https?:\/\/)[^) \n\r]+?\)/g, "$1")
     .replace(/\[large\]([\s\S]+?)\[\/large\]/g, "$1")
     .replace(/\[small\]([\s\S]+?)\[\/small\]/g, "$1")
     .replace(/^#{1,2}\s+/gm, "")

@@ -1,10 +1,9 @@
-export const BUCKETS = ["Action", "Perspective", "Relations", "Leadership/Workplace"] as const;
+export const BUCKETS = ["Doing/Being", "Knowing/Not Knowing", "Relationships"] as const;
 
 export const BUCKET_ASSETS: Record<string, string> = {
-  Action: "/generated/bucket-action.png",
-  Perspective: "/generated/bucket-perspective.png",
-  Relations: "/generated/bucket-relations.png",
-  "Leadership/Workplace": "/generated/bucket-leadership.png"
+  "Doing/Being": "/generated/bucket-action.png",
+  "Knowing/Not Knowing": "/generated/bucket-perspective.png",
+  Relationships: "/generated/bucket-relations.png"
 };
 
 export const ASSET_RECORDS = [
@@ -18,54 +17,42 @@ export const ASSET_RECORDS = [
   },
   {
     key: "bucket-action",
-    filePath: BUCKET_ASSETS.Action,
-    bucket: "Action",
+    filePath: BUCKET_ASSETS["Doing/Being"],
+    bucket: "Doing/Being",
     altText: "Warm stone and directional light suggesting forward movement and grounded agency.",
     prompt:
-      "Abstract editorial natural texture for an essay category called Action, warm stone, angled sunlight, subtle path-like lines, modern literary magazine style, no text."
+      "Abstract editorial natural texture for an essay category called Doing/Being, warm stone, angled sunlight, subtle path-like lines, modern literary magazine style, no text."
   },
   {
     key: "bucket-perspective",
-    filePath: BUCKET_ASSETS.Perspective,
-    bucket: "Perspective",
+    filePath: BUCKET_ASSETS["Knowing/Not Knowing"],
+    bucket: "Knowing/Not Knowing",
     altText: "Layered dark and pale rock surfaces suggesting reframing and seeing from more than one angle.",
     prompt:
-      "Abstract editorial natural texture for Perspective, layered rock faces with light and shadow, contemplative, high-end magazine style, no text."
+      "Abstract editorial natural texture for Knowing/Not Knowing, layered rock faces with light and shadow, contemplative, high-end magazine style, no text."
   },
   {
     key: "bucket-relations",
-    filePath: BUCKET_ASSETS.Relations,
-    bucket: "Relations",
+    filePath: BUCKET_ASSETS.Relationships,
+    bucket: "Relationships",
     altText: "Interlaced warm and cool stone forms suggesting connection, boundary, and care.",
     prompt:
-      "Abstract editorial natural texture for Relations, interlaced stone and soft mineral veins, warm neutral and muted green, intimate reflective mood, no text."
-  },
-  {
-    key: "bucket-leadership",
-    filePath: BUCKET_ASSETS["Leadership/Workplace"],
-    bucket: "Leadership/Workplace",
-    altText: "Structured dark slate and warm light suggesting workplace clarity and human judgment.",
-    prompt:
-      "Abstract editorial natural texture for Leadership and Workplace, structured slate, warm side light, quiet sophistication, no text, no watermark."
+      "Abstract editorial natural texture for Relationships, interlaced stone and soft mineral veins, warm neutral and muted green, intimate reflective mood, no text."
   }
 ] as const;
 
 export function inferBucket(title: string) {
-  if (/Making It Happen|Doing vs Being|Persistence|Prioritizing/.test(title)) {
-    return "Action";
+  if (/Doing vs Being|Enoughness|Making It Happen|Persistence/.test(title)) {
+    return "Doing/Being";
   }
 
-  if (/Strength|Individual Needs/.test(title)) {
-    return "Relations";
+  if (/Compassion|Individual Needs|Speaking Up|Strength/.test(title)) {
+    return "Relationships";
   }
 
-  if (/Speaking Up|Compassion/.test(title)) {
-    return "Leadership/Workplace";
-  }
-
-  return "Perspective";
+  return "Knowing/Not Knowing";
 }
 
 export function heroForBucket(bucket: string) {
-  return BUCKET_ASSETS[bucket] ?? BUCKET_ASSETS.Perspective;
+  return BUCKET_ASSETS[bucket] ?? BUCKET_ASSETS["Knowing/Not Knowing"];
 }
